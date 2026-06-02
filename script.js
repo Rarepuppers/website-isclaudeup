@@ -63,8 +63,8 @@ function render(data) {
   if (els.smashImg && els.smashImg.getAttribute("src") !== BUTTONS[state]) {
     els.smashImg.src = BUTTONS[state];
   }
-  // adjust how fast the panic counter climbs based on severity
-  counter.setRate(CLICK_RATE[state]);
+  // feed status + severity to the panic counter (drives calm vs outage scaling)
+  counter.setStatus(state, data);
 
   // Component breakdown
   els.components.innerHTML = "";
@@ -124,22 +124,86 @@ const quotes = [
 ];
 
 // ---------- PANIC COUNTER (split-flap odometer) ----------
-// Fully faked for now (no backend). Represents "checks in the last 24h".
-// It drifts upward on its own — slowly when Claude is fine, fast during an
-// outage — and jumps when the user smashes the button. Swap in a real API later.
+// Fully faked for now (no backend). Represents "panic-checks in the last 24h".
+//   • Calm days: a LOW number (0–5000) that resets at UTC midnight and creeps
+//     up slowly through the day.
+//   • Outages: a MUCH higher number, scaled by how long the outage has lasted
+//     (using the incident start time from the status API), climbing fast.
+// The number never drops mid-day (those checks already happened); it only
+// resets at UTC midnight. Swap in a real API later via counter.bump().
 
-const CLICK_RATE = {
-  up: 0.18,        // ~ a tick every few seconds (calm)
-  degraded: 1.4,   // noticeably busier
-  down: 5.5,       // frantic refreshing
+const CLICK_RATE = {        // extra per-second jitter (only applied during issues)
+  up: 0,
+  degraded: 1.2,
+  down: 4.5,
 };
+
+// per-day deterministic pseudo-random in [0,1) — stable for the whole UTC day
+function daySeed() {
+  const d = new Date();
+  const n = d.getUTCFullYear() * 10000 + (d.getUTCMonth() + 1) * 100 + d.getUTCDate();
+  const x = Math.sin(n) * 43758.5453;
+  return x - Math.floor(x);
+}
+function utcDayStart() {
+  const d = new Date();
+  return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+}
+function dayKey() {
+  const d = new Date();
+  return `${d.getUTCFullYear()}-${d.getUTCMonth()}-${d.getUTCDate()}`;
+}
 
 // Split-flap renderer: one .cell per character, flips only the digits that change.
 const counter = (() => {
-  let value = 0;       // the "true" target value
-  let shown = 0;       // what's currently displayed (eases toward value)
-  let rate = CLICK_RATE.up;
+  let value = 0;            // the target value
+  let shown = 0;            // what's displayed (eases toward value)
+  let bonus = 0;            // user smashes, folded in each second
+  let state = "up";
+  let data = null;          // latest status payload (for outage timing)
+  let curDay = dayKey();
+  let outageSeenAt = Number(localStorage.getItem("outageSeenAt")) || 0;
   let lastChars = [];
+
+  // calm baseline: 0 → (2500–5000) across the UTC day, random per day
+  function calmBase(now) {
+    const target = 2500 + Math.floor(daySeed() * 2500); // 2500–5000
+    const frac = Math.min(1, (now - utcDayStart()) / 86400000);
+    return Math.floor(target * frac);
+  }
+
+  // outage contribution: 0 when up; otherwise scales with outage duration
+  function outageBase(now) {
+    const ind = data?.status?.indicator || "none";
+    if (ind === "none") {
+      outageSeenAt = 0;
+      localStorage.removeItem("outageSeenAt");
+      return 0;
+    }
+    const severe = ind !== "minor"; // major / critical
+    // earliest active incident start from the API, else first time WE saw it
+    let start = null;
+    (data?.incidents || []).forEach((inc) => {
+      const t = Date.parse(inc.started_at || inc.created_at || "");
+      if (!isNaN(t)) start = start === null ? t : Math.min(start, t);
+    });
+    if (!start) {
+      if (!outageSeenAt) {
+        outageSeenAt = now;
+        localStorage.setItem("outageSeenAt", String(now));
+      }
+      start = outageSeenAt;
+    }
+    const minutes = Math.max(0, (now - start) / 60000);
+    const perMin = severe ? 320 : 80;   // panic-checks per minute
+    const jump = severe ? 4000 : 1200;  // instant spike the moment it's detected
+    const wobble = 0.85 + daySeed() * 0.4;
+    return Math.floor((jump + minutes * perMin) * wobble);
+  }
+
+  function floorNow(now) {
+    return calmBase(now) + outageBase(now);
+  }
 
   function paint(n) {
     const str = Math.floor(n).toLocaleString("en-US");
@@ -172,34 +236,43 @@ const counter = (() => {
     lastChars = chars;
   }
 
-  // ease the displayed number toward the target so big jumps roll up
-  function tick() {
-    if (shown < value) {
-      const step = Math.max(1, Math.round((value - shown) / 12));
-      shown = Math.min(value, shown + step);
+  // ease the displayed number toward the target (rolls up big jumps, snaps down)
+  function ease() {
+    if (shown === value) return;
+    const diff = value - shown;
+    shown = diff > 0 ? Math.min(value, shown + Math.max(1, Math.round(diff / 12))) : value;
+    paint(shown);
+  }
+  setInterval(ease, 90);
+
+  // once a second: recompute floor, fold in smashes + outage jitter, daily reset
+  setInterval(() => {
+    const now = Date.now();
+    if (dayKey() !== curDay) {        // UTC midnight → reset to a fresh low base
+      curDay = dayKey();
+      value = calmBase(now);
+      shown = value;
       paint(shown);
     }
-  }
-  setInterval(tick, 90);
-
-  // ambient drift: add checks over time based on the current rate
-  setInterval(() => {
-    // Poisson-ish: rate is per second; this runs every 1s with jitter
-    const added = Math.random() < (rate % 1) ? Math.ceil(rate) : Math.floor(rate);
-    if (added > 0) value += added;
+    const floor = floorNow(now);
+    if (floor > value) value = floor;  // never below the time/outage floor
+    const rate = CLICK_RATE[state] || 0;
+    if (rate > 0) {                    // frantic jitter only during issues
+      value += Math.random() < (rate % 1) ? Math.ceil(rate) : Math.floor(rate);
+    }
+    value += bonus;
+    bonus = 0;
   }, 1000);
 
+  // start straight at the right number (high if we load mid-outage)
+  value = shown = calmBase(Date.now());
+  paint(shown);
+
   return {
-    seed(n) { value = n; shown = n; paint(n); },
-    bump(n = 1) { value += n; },
-    setRate(r) { if (typeof r === "number") rate = r; },
+    setStatus(s, d) { state = s; data = d; },
+    bump(n = 1) { bonus += n; },
   };
 })();
-
-// Seed a plausible "last 24h" baseline that shifts a little each day,
-// so reloads don't snap back to one fixed number.
-const daySalt = new Date().getUTCDate() * 137 + new Date().getUTCHours() * 53;
-counter.seed(16000 + (daySalt % 4000));
 
 let lastQuote = -1;
 function smash() {

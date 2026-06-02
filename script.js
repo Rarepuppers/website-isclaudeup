@@ -42,7 +42,7 @@ function render(data) {
 
   if (indicator === "none") {
     state = "up";
-    verdict = "NO";
+    verdict = "YES";
     subline = "Claude is up. Back to work. 🫡";
   } else if (indicator === "minor") {
     state = "degraded";
@@ -50,7 +50,7 @@ function render(data) {
     subline = data.status.description || "Some services are degraded.";
   } else {
     state = "down";
-    verdict = "YES";
+    verdict = "NO";
     subline = data.status.description || "Claude is having a rough time.";
   }
 

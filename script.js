@@ -113,6 +113,14 @@ const quotes = [
   "I will touch grass the moment it's back. Not before.",
   "Have you tried turning the AI off and on again?",
   "This is the longest 4 minutes of my life.",
+  "I'm thinking of using Antigravit— haha, no one uses that.",
+  "What's the URL for Codex again?",
+  "Does this mean we get another usage reset?",
+  "Guess I'll go open Cursor. Ugh.",
+  "Copilot it is, then. May God have mercy.",
+  "I'd ask Gemini but I have my dignity.",
+  "Is it down for everyone or just me being punished?",
+  "My rate limit reset 3 minutes ago and now THIS.",
 ];
 
 // ---------- PANIC COUNTER (split-flap odometer) ----------

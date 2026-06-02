@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Is Claude Down? — Live Claude &amp; Claude Code Status</title>
+  <meta name="description" content="Live status of Claude and Claude Code. Find out instantly if Claude is down right now, and get an email the second it comes back up." />
+
+  <!-- Open Graph / social sharing (shows nicely when people paste the link during an outage) -->
+  <meta property="og:title" content="Is Claude Down Right Now?" />
+  <meta property="og:description" content="Live Claude &amp; Claude Code status. Get notified the second it's back up." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.isclaudeup.com" />
+
+  <link rel="icon" type="image/png" href="assets/claude-logo-256.png" />
+
+  <!-- Preload the "up" robot + default button so the first paint is instant during a spike -->
+  <link rel="preload" as="image" href="assets/robot-up.webp" />
+  <link rel="preload" as="image" href="assets/smash-button.webp" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!--
+    MONETIZATION (added later — email list first):
+    When you have traffic + AdSense approval, paste your script here.
+    A single-purpose page may be rejected by AdSense as "low value content";
+    EthicalAds / Carbon Ads are friendlier to dev-audience utility sites.
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXX" crossorigin="anonymous"></script>
+  -->
+</head>
+<body data-state="loading">
+  <main class="wrap">
+    <header class="topbar">
+      <span class="brand">isclaudeup<span class="dot">.com</span></span>
+    </header>
+
+    <!-- THE BIG TV -->
+    <section class="tv" aria-live="polite">
+      <div class="mascot" id="mascot">
+        <!-- src swapped by script.js based on live status -->
+        <img id="mascot-img" src="assets/robot-up.webp" alt="Claude status robot" width="220" height="220" />
+      </div>
+
+      <p class="question">Is Claude down?</p>
+      <h1 class="verdict" id="verdict">…</h1>
+      <p class="subline" id="subline">Checking the official status page…</p>
+
+      <button class="smash" id="smash" type="button" aria-label="Check again">
+        <img id="smash-img" src="assets/smash-button.webp" alt="" width="140" height="140" />
+        <span class="smash-label">Check Again</span>
+      </button>
+      <p class="quote" id="quote"></p>
+
+      <p class="counter">
+        <span id="count" class="odometer" aria-label="panic checks in the last 24 hours"></span>
+        panic-checks in the last 24h
+      </p>
+    </section>
+
+    <!-- NEWSLETTER (the real asset) -->
+    <section class="signup">
+      <h2>Get pinged the second it's back up</h2>
+      <p>Drop your email and get back to work the instant Claude recovers.</p>
+
+      <!--
+        BREVO FORM:
+        Replace this whole <form> with the embed code from your Brevo account
+        (Contacts → Forms → create form → "Share" → copy the HTML embed).
+        This placeholder is non-functional until you swap it in.
+        Free tier sends 300 emails/day — fine to start; upgrade only when your list grows.
+      -->
+      <form class="brevo-placeholder" onsubmit="return false;">
+        <input type="email" placeholder="you@example.com" aria-label="Email address" required />
+        <button type="submit">Notify me</button>
+      </form>
+      <p class="finehint">Paste your Brevo embed code here — see the comment in index.html.</p>
+    </section>
+
+    <!-- LIVE COMPONENT BREAKDOWN -->
+    <section class="components">
+      <h2>Service breakdown</h2>
+      <ul id="components"></ul>
+    </section>
+
+    <footer class="foot">
+      <p>
+        Status pulled live from the official
+        <a href="https://status.claude.com" target="_blank" rel="noopener">status.claude.com</a>.
+        Not affiliated with Anthropic. Last checked <span id="updated">—</span>.
+      </p>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

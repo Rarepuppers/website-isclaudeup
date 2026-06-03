@@ -273,6 +273,78 @@ body[data-state="down"] .smash img { filter: drop-shadow(0 0 18px rgba(220, 38, 
 .pill.degraded_performance, .pill.partial_outage { background: var(--warn-soft); color: #fbbf24; }
 .pill.major_outage { background: var(--down-soft); color: #f87171; }
 
+/* ---------- LEGAL / CONTENT PAGES ---------- */
+.brand { text-decoration: none; color: var(--fg); }
+.legal { max-width: 720px; }
+.legal h1 { font-size: clamp(28px, 7vw, 40px); margin: 18px 0 4px; }
+.legal h2 { font-size: 19px; margin: 28px 0 6px; }
+.legal p, .legal li { color: #cbd2da; line-height: 1.6; font-size: 15px; }
+.legal ul { padding-left: 20px; }
+.legal li { margin: 8px 0; }
+.legal a { color: #fff; }
+.legal-updated { color: var(--muted); font-size: 13px; margin-top: 0; }
+
+/* ---------- CONTEXTUAL BACKUP TOOLS (outage only) ---------- */
+.alternatives {
+  display: none; /* hidden when Claude is up — keeps the calm view clean */
+  background: var(--card);
+  border: 1px solid var(--warn);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin: 22px 0;
+  text-align: center;
+}
+body[data-state="down"] .alternatives,
+body[data-state="degraded"] .alternatives { display: block; }
+.alternatives h2 { margin: 0 0 6px; font-size: 20px; }
+.alternatives > p { color: var(--muted); margin: 0 auto; max-width: 440px; }
+.alt-list {
+  list-style: none;
+  margin: 16px auto 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  max-width: 440px;
+}
+.alt-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #0f1115;
+  border-radius: 10px;
+}
+.alt-list a { color: var(--fg); font-weight: 700; text-decoration: none; }
+.alt-list a:hover { text-decoration: underline; }
+.alt-list span { color: var(--muted); font-size: 13px; }
+.alt-disclaimer { color: var(--muted); font-size: 12px; margin-top: 14px; }
+
+/* ---------- FAQ ---------- */
+.faq {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin: 22px 0;
+}
+.faq h2 { margin: 0 0 8px; font-size: 20px; }
+.faq details { border-bottom: 1px solid #24272f; padding: 14px 0; }
+.faq details:last-child { border-bottom: none; padding-bottom: 0; }
+.faq summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 15px;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--muted); font-weight: 700; font-size: 18px; }
+.faq details[open] summary::after { content: "–"; }
+.faq details p { color: var(--muted); font-size: 14px; line-height: 1.55; margin: 10px 0 2px; }
+
 /* ---------- SUPPORT / DONATE ---------- */
 .support-card {
   background: var(--card);

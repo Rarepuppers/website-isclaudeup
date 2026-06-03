@@ -60,6 +60,19 @@
       </p>
     </section>
 
+    <!-- CONTEXTUAL BACKUP TOOLS — only shown during an outage (CSS toggles on data-state) -->
+    <section class="alternatives">
+      <h2>Stuck while Claude's down?</h2>
+      <p>Keep moving with one of these until it's back — we'll still email you the second it recovers.</p>
+      <ul class="alt-list">
+        <li><a href="https://cursor.com" target="_blank" rel="sponsored noopener">Cursor</a> <span>AI code editor</span></li>
+        <li><a href="https://github.com/features/copilot" target="_blank" rel="sponsored noopener">GitHub Copilot</a> <span>in-IDE autocomplete</span></li>
+        <li><a href="https://windsurf.com" target="_blank" rel="sponsored noopener">Windsurf</a> <span>agentic IDE</span></li>
+        <li><a href="https://gemini.google.com" target="_blank" rel="sponsored noopener">Gemini</a> <span>general assistant</span></li>
+      </ul>
+      <p class="alt-disclaimer">Some links may be sponsored or affiliate links. We only list tools we'd actually use.</p>
+    </section>
+
     <!-- NEWSLETTER (the real asset) -->
     <section class="signup">
       <h2>Get pinged the second it's back up</h2>
@@ -143,6 +156,41 @@
       </p>
     </section>
 
+    <!-- FAQ — content for humans + SEO + groundwork for ad approval -->
+    <section class="faq">
+      <h2>Claude outage FAQ</h2>
+
+      <details>
+        <summary>Is Claude down right now?</summary>
+        <p>This page checks Anthropic's official status feed live when it loads, and again every 30 seconds. If the big answer reads <strong>NO</strong>, Claude is reporting problems; <strong>YES</strong> means all systems are operational.</p>
+      </details>
+
+      <details>
+        <summary>Is it Claude that's down, or my internet?</summary>
+        <p>Quick checks: load another website to rule out your connection, try Claude in an incognito window or on a different network, and clear your cache. If this page shows Claude as up but it still fails for you, the problem is likely local — your network, a browser extension, or your account.</p>
+      </details>
+
+      <details>
+        <summary>What's the difference between "Claude" and "Claude Code" being down?</summary>
+        <p>Claude (claude.ai) is the chat app and the API; Claude Code is the command-line / agent tool for developers. They can fail independently — the API can be degraded while the website is fine, or vice versa. The service breakdown above shows each component separately.</p>
+      </details>
+
+      <details>
+        <summary>Where does this site get its status data?</summary>
+        <p>Straight from Anthropic's official status page at status.claude.com — the same source Anthropic publishes. We don't run our own probes or guess, so what you see here matches the official report.</p>
+      </details>
+
+      <details>
+        <summary>Will you email me when Claude is back up?</summary>
+        <p>Yes — that's the whole point. Pop your email in the signup box above and we'll send a single message the moment Claude recovers, so you can get straight back to work.</p>
+      </details>
+
+      <details>
+        <summary>How often does Claude go down?</summary>
+        <p>Like any large online service, Claude is up the vast majority of the time but has the occasional incident — usually brief, and sometimes affecting only one component (a single model, or just the API). For the official history of past incidents, see status.claude.com.</p>
+      </details>
+    </section>
+
     <footer class="foot">
       <p class="foot-main">
         © 2026 Is Claude Up — built by
@@ -154,7 +202,10 @@
         Not affiliated with, or endorsed by, Anthropic.
         Last checked <span id="updated">—</span>.
       </p>
-      <p class="foot-legal">Snackpack Universe · ABN 51 918 351 341</p>
+      <p class="foot-legal">
+        Snackpack Universe · ABN 51 918 351 341 ·
+        <a href="privacy.html">Privacy</a>
+      </p>
     </footer>
   </main>
 

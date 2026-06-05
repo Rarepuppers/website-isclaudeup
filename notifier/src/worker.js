@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────
-// isclaudeup recovery notifier — Cloudflare Worker (cron-triggered).
+// iscodexup recovery notifier — Cloudflare Worker (cron-triggered).
 //
 // Runs every minute (see wrangler.toml [triggers]). It polls the official
 // Statuspage summary, remembers the previous state in KV, and when the service
@@ -190,6 +190,6 @@ export default {
       await sendRecoveryCampaign(env, cfg(env), { now: Date.now() });
       return new Response("sent");
     }
-    return new Response("isclaudeup notifier: ok", { status: 200 });
+    return new Response("iscodexup notifier: ok", { status: 200 });
   },
 };

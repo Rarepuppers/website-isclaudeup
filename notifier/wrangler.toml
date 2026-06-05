@@ -1,6 +1,6 @@
 # Cloudflare Worker — recovery notifier. Deploy with `wrangler deploy` from this folder.
 # See README.md for first-time setup (KV namespace, secret, sender, list id).
-name = "isclaudeup-notifier"
+name = "iscodexup-notifier"
 main = "src/worker.js"
 compatibility_date = "2025-01-01"
 
@@ -10,24 +10,26 @@ crons = ["* * * * *"]
 
 # Persistent state between ticks (last status, outage start, up-streak, last-notified).
 # Create with: wrangler kv namespace create STATE  → paste the returned id below.
+# TODO(iscodexup): this is a FRESH namespace — run the command above and replace the id.
 [[kv_namespaces]]
 binding = "STATE"
-id = "6993e75680744f45928b1d449fdfc601"
+id = "REPLACE_WITH_NEW_KV_NAMESPACE_ID"
 
 [vars]
-# Same status feed the site reads. For iscodexup: https://status.openai.com/api/v2/summary.json
-STATUS_URL = "https://status.claude.com/api/v2/summary.json"
+# Same status feed the site reads.
+STATUS_URL = "https://status.openai.com/api/v2/summary.json"
 
 # Brevo list to notify + verified sender. BREVO_LIST_ID is the numeric id of your
 # double-opt-in notify list. SENDER_EMAIL must be a Brevo-verified sender/domain.
-BREVO_LIST_ID = "5"
-SENDER_NAME = "Is Claude Up"
-# isclaudeup.com is authenticated in Brevo (DKIM + DMARC). Sends from the branded domain.
-SENDER_EMAIL = "notify@isclaudeup.com"
+# TODO(iscodexup): set the numeric id of the NEW Codex notify list (Brevo → Contacts → Lists).
+BREVO_LIST_ID = "REPLACE_WITH_CODEX_NOTIFY_LIST_ID"
+SENDER_NAME = "Is Codex Up"
+# TODO(iscodexup): authenticate iscodexup.com in Brevo (DKIM + DMARC) before this sender works.
+SENDER_EMAIL = "notify@iscodexup.com"
 
 # Copy/branding used in the email.
-PRODUCT = "Claude"
-SITE_URL = "https://isclaudeup.com"
+PRODUCT = "Codex"
+SITE_URL = "https://iscodexup.com"
 
 # Tuning. Which indicators count as a real outage (recovery from a "minor"/degraded
 # blip will NOT email unless you add "minor"). Then: minimum outage length before a

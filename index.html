@@ -6,21 +6,21 @@
   <!-- FORKING THIS TO ANOTHER PRODUCT (e.g. iscodexup.com)? Runtime values live in
        config.js; the static HTML swaps below are all listed in FORK.md. -->
 
-  <title>Is Codex Down? — Live OpenAI Codex Status</title>
-  <meta name="description" content="Live status of OpenAI Codex. Find out instantly if Codex is down right now, and get an email the second it comes back up." />
+  <title>Is Claude Down? — Live Claude &amp; Claude Code Status</title>
+  <meta name="description" content="Live status of Claude and Claude Code. Find out instantly if Claude is down right now, and get an email the second it comes back up." />
 
   <!-- Open Graph / social sharing (shows nicely when people paste the link during an outage) -->
-  <meta property="og:title" content="Is Codex Down Right Now?" />
-  <meta property="og:description" content="Live OpenAI Codex status. Get notified the second it's back up." />
+  <meta property="og:title" content="Is Claude Down Right Now?" />
+  <meta property="og:description" content="Live Claude &amp; Claude Code status. Get notified the second it's back up." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://iscodexup.com" />
+  <meta property="og:url" content="https://isclaudeup.com" />
 
-  <link rel="canonical" href="https://iscodexup.com/" />
-  <link rel="icon" type="image/png" href="assets/inifinity-original.png" />
+  <link rel="canonical" href="https://isclaudeup.com/" />
+  <link rel="icon" type="image/png" href="assets/claude-logo-256.png" />
 
   <!-- Preload the "up" robot + default button so the first paint is instant during a spike -->
-  <link rel="preload" as="image" href="assets/codex-status-up-online-green-transparent.webp" />
-  <link rel="preload" as="image" href="assets/codex-button-yellow-transparent.webp" />
+  <link rel="preload" as="image" href="assets/robot-up.webp" />
+  <link rel="preload" as="image" href="assets/smash-button.webp" />
 
   <!-- Brevo form base styles (loaded BEFORE style.css so our dark theme overrides win) -->
   <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css" />
@@ -37,22 +37,22 @@
 <body data-state="loading">
   <main class="wrap">
     <header class="topbar">
-      <span class="brand">iscodexup<span class="dot">.com</span></span>
+      <span class="brand">isclaudeup<span class="dot">.com</span></span>
     </header>
 
     <!-- THE BIG TV -->
     <section class="tv" aria-live="polite">
       <div class="mascot" id="mascot">
         <!-- src swapped by script.js based on live status -->
-        <img id="mascot-img" src="assets/codex-status-up-online-green-transparent.webp" alt="Codex status robot" width="220" height="220" />
+        <img id="mascot-img" src="assets/robot-up.webp" alt="Claude status robot" width="220" height="220" />
       </div>
 
-      <p class="question">Is Codex up?</p>
+      <p class="question">Is Claude up?</p>
       <h1 class="verdict" id="verdict">…</h1>
       <p class="subline" id="subline">Checking the official status page…</p>
 
       <button class="smash" id="smash" type="button" aria-label="Check again">
-        <img id="smash-img" src="assets/codex-button-yellow-transparent.webp" alt="" width="140" height="140" />
+        <img id="smash-img" src="assets/smash-button.webp" alt="" width="140" height="140" />
         <span class="smash-label">Check Again</span>
       </button>
       <p class="quote" id="quote"></p>
@@ -65,10 +65,9 @@
 
     <!-- CONTEXTUAL BACKUP TOOLS — only shown during an outage (CSS toggles on data-state) -->
     <section class="alternatives">
-      <h2>Stuck while Codex is down?</h2>
+      <h2>Stuck while Claude's down?</h2>
       <p>Keep moving with one of these until it's back — we'll still email you the second it recovers.</p>
       <ul class="alt-list">
-        <li><a href="https://claude.com/claude-code" target="_blank" rel="sponsored noopener">Claude Code</a> <span>agentic coding CLI</span></li>
         <li><a href="https://cursor.com" target="_blank" rel="sponsored noopener">Cursor</a> <span>AI code editor</span></li>
         <li><a href="https://github.com/features/copilot" target="_blank" rel="sponsored noopener">GitHub Copilot</a> <span>in-IDE autocomplete</span></li>
         <li><a href="https://windsurf.com" target="_blank" rel="sponsored noopener">Windsurf</a> <span>agentic IDE</span></li>
@@ -85,7 +84,7 @@
       <p class="alt-disclaimer">Some links may be sponsored or affiliate links. We only list tools we'd actually use.</p>
     </section>
 
-    <!-- COMPANION TOOLS — pairs WITH Codex (not an outage fallback), so it shows in the calm view too.
+    <!-- COMPANION TOOLS — pairs WITH Claude (not an outage fallback), so it shows in the calm view too.
          STAGED: keep this commented out until the Wispr Flow affiliate application is approved.
          To go live: (1) uncomment this block, (2) swap the href for the Dub/affiliate tracking
          link, keeping rel="sponsored". Until a program is live, an honest unmonetized href + plain
@@ -93,10 +92,10 @@
          in here — one genuinely-complementary pick keeps it credible. -->
     <!--
     <section class="companions">
-      <h2>Pairs well with Codex</h2>
+      <h2>Pairs well with Claude</h2>
       <p>A tool we actually use alongside it day to day.</p>
       <ul class="alt-list">
-        <li><a href="https://wisprflow.ai" target="_blank" rel="sponsored noopener">Wispr Flow</a> <span>voice-to-text — dictate straight into Codex</span></li>
+        <li><a href="https://wisprflow.ai" target="_blank" rel="sponsored noopener">Wispr Flow</a> <span>voice-to-text — dictate straight into Claude</span></li>
       </ul>
       <p class="alt-disclaimer">Sponsored/affiliate link. We only list tools we'd actually use.</p>
     </section>
@@ -105,7 +104,7 @@
     <!-- NEWSLETTER (the real asset) -->
     <section class="signup">
       <h2>Get pinged the second it's back up</h2>
-      <p>Drop your email and get back to work the instant Codex recovers.</p>
+      <p>Drop your email and get back to work the instant Claude recovers.</p>
 
       <!-- Brevo form (HTML embed, restyled to the dark theme). Logic handled by main.js at end of <body>. -->
       <div class="sib-form">
@@ -125,13 +124,13 @@
               <svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon">
                 <path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 464c-118.664 0-216-96.055-216-216 0-118.663 96.055-216 216-216 118.664 0 216 96.055 216 216 0 118.663-96.055 216-216 216zm141.63-274.961L217.15 376.071c-4.705 4.667-12.303 4.637-16.97-.068l-85.878-86.572c-4.667-4.705-4.637-12.303.068-16.97l8.52-8.451c4.705-4.667 12.303-4.637 16.97.068l68.976 69.533 163.441-162.13c4.705-4.667 12.303-4.637 16.97.068l8.451 8.52c4.668 4.705 4.637 12.303-.068 16.97z" />
               </svg>
-              <span class="sib-form-message-panel__inner-text">You're almost in. Check your inbox and click the confirmation link — then we'll ping you the second Codex is back from the dead. (Check spam if the robot's hiding.)</span>
+              <span class="sib-form-message-panel__inner-text">You're almost in. Check your inbox and click the confirmation link — then we'll ping you the second Claude's back from the dead. (Check spam if the robot's hiding.)</span>
             </div>
           </div>
 
           <div id="sib-container" class="sib-container--large sib-container--vertical">
             <form id="sib-form" method="POST"
-                  action="https://c8e915bf.sibforms.com/serve/MUIFAPxHfqDbiZzAtEddhoa-lYCPDFW6c52D804jbcppjUq4LMw8tcC_qwTnCBYhJ6Wk8CSKiG_te7mEqvLbbOR0886d0bgDfQAV1Y3QQSvFYUvp5unu4fp0GmM1qL7XpUzOI_sBfYbbxUYfryi9KWlZzaTnmydziAQZxmsvPW0zWNXYdPt_F-fJID-AT3exD38H51xo52tvxI8cUg=="
+                  action="https://c8e915bf.sibforms.com/serve/MUIFAErAP3J0RJnuZFd0dDf1uZx10L675j0WMInh8yBbhTI6-_lA3RNIa_U5UJf0AaHUwJL5gG4WCvp7urgklPJCqF4zROXs2AoDT9GeP6JG7ftTqPIuqoY9auWUdSgUKyJOsk9XJZRlZ4dTBYmBhQmI06Yb0r30-RD1KBNXj0orpxh8hoXRK-7isNBSRn4T4cZqB0hTG99HaWqsJw=="
                   data-type="subscription">
 
               <div class="sib-input sib-form-block">
@@ -163,7 +162,7 @@
 
         </div>
       </div>
-      <p class="finehint">No spam. One email when Codex is back. Unsubscribe anytime.</p>
+      <p class="finehint">No spam. One email when Claude's back. Unsubscribe anytime.</p>
     </section>
 
     <!-- LIVE COMPONENT BREAKDOWN -->
@@ -174,9 +173,9 @@
 
     <!-- SUPPORT / DONATE -->
     <section class="support-card">
-      <a class="donate" href="https://buy.stripe.com/6oU14of8K99V9UJ6AL0VO02"
-         target="_blank" rel="noopener" aria-label="Support iscodexup via Stripe">
-        <img src="assets/donate-transparent.webp" alt="" width="160" height="160" loading="lazy" />
+      <a class="donate" href="https://buy.stripe.com/bJe3cwf8KgCnaYNaR10VO00"
+         target="_blank" rel="noopener" aria-label="Support isclaudeup via Stripe">
+        <img src="assets/donate.webp" alt="" width="160" height="160" loading="lazy" />
         <span class="donate-btn">☕ Buy the robot a coffee</span>
       </a>
       <p class="support-copy">
@@ -187,48 +186,48 @@
 
     <!-- FAQ — content for humans + SEO + groundwork for ad approval -->
     <section class="faq">
-      <h2>Codex outage FAQ</h2>
+      <h2>Claude outage FAQ</h2>
 
       <details>
-        <summary>Is Codex down right now?</summary>
-        <p>This page checks OpenAI's official status feed live when it loads, and again every 30 seconds. If the big answer reads <strong>NO</strong>, Codex is reporting problems; <strong>YES</strong> means all systems are operational.</p>
+        <summary>Is Claude down right now?</summary>
+        <p>This page checks Anthropic's official status feed live when it loads, and again every 30 seconds. If the big answer reads <strong>NO</strong>, Claude is reporting problems; <strong>YES</strong> means all systems are operational.</p>
       </details>
 
       <details>
-        <summary>Is it Codex that's down, or my internet?</summary>
-        <p>Quick checks: load another website to rule out your connection, try Codex in an incognito window or on a different network, and clear your cache. If this page shows Codex as up but it still fails for you, the problem is likely local — your network, a browser extension, or your account.</p>
+        <summary>Is it Claude that's down, or my internet?</summary>
+        <p>Quick checks: load another website to rule out your connection, try Claude in an incognito window or on a different network, and clear your cache. If this page shows Claude as up but it still fails for you, the problem is likely local — your network, a browser extension, or your account.</p>
       </details>
 
       <details>
-        <summary>What's the difference between "Codex" and the OpenAI API being down?</summary>
-        <p>Codex is OpenAI's coding agent (in the CLI, IDE extensions, and the cloud), while the OpenAI API and ChatGPT are separate components. They can fail independently — the API can be degraded while ChatGPT is fine, or vice versa. The service breakdown above shows each component separately.</p>
+        <summary>What's the difference between "Claude" and "Claude Code" being down?</summary>
+        <p>Claude (claude.ai) is the chat app and the API; Claude Code is the command-line / agent tool for developers. They can fail independently — the API can be degraded while the website is fine, or vice versa. The service breakdown above shows each component separately.</p>
       </details>
 
       <details>
         <summary>Where does this site get its status data?</summary>
-        <p>Straight from OpenAI's official status page at status.openai.com — the same source OpenAI publishes. We don't run our own probes or guess, so what you see here matches the official report.</p>
+        <p>Straight from Anthropic's official status page at status.claude.com — the same source Anthropic publishes. We don't run our own probes or guess, so what you see here matches the official report.</p>
       </details>
 
       <details>
-        <summary>Will you email me when Codex is back up?</summary>
-        <p>Yes — that's the whole point. Pop your email in the signup box above and we'll send a single message the moment Codex recovers, so you can get straight back to work.</p>
+        <summary>Will you email me when Claude is back up?</summary>
+        <p>Yes — that's the whole point. Pop your email in the signup box above and we'll send a single message the moment Claude recovers, so you can get straight back to work.</p>
       </details>
 
       <details>
-        <summary>How often does Codex go down?</summary>
-        <p>Like any large online service, Codex is up the vast majority of the time but has the occasional incident — usually brief, and sometimes affecting only one component (a single model, or just the API). For the official history of past incidents, see status.openai.com.</p>
+        <summary>How often does Claude go down?</summary>
+        <p>Like any large online service, Claude is up the vast majority of the time but has the occasional incident — usually brief, and sometimes affecting only one component (a single model, or just the API). For the official history of past incidents, see status.claude.com.</p>
       </details>
     </section>
 
     <footer class="foot">
       <p class="foot-main">
-        © 2026 Is Codex Up — built by
+        © 2026 Is Claude Up — built by
         <a href="https://github.com/Rarepuppers" target="_blank" rel="noopener">Snackpack Universe</a>.
       </p>
       <p>
         Status pulled live from the official
-        <a href="https://status.openai.com" target="_blank" rel="noopener">status.openai.com</a>.
-        Not affiliated with, endorsed by, or sponsored by OpenAI.
+        <a href="https://status.claude.com" target="_blank" rel="noopener">status.claude.com</a>.
+        Not affiliated with, or endorsed by, Anthropic.
         Last checked <span id="updated">—</span>.
       </p>
       <p class="foot-legal">
@@ -247,10 +246,10 @@
   <script>
     window.REQUIRED_CODE_ERROR_MESSAGE = 'Please choose a country code';
     window.LOCALE = 'en';
-    window.EMAIL_INVALID_MESSAGE = window.SMS_INVALID_MESSAGE = "That email looks about as broken as Codex right now. Double-check the format and try again.";
+    window.EMAIL_INVALID_MESSAGE = window.SMS_INVALID_MESSAGE = "That email looks about as broken as Claude right now. Double-check the format and try again.";
     window.REQUIRED_ERROR_MESSAGE = "Can't email the void. Pop your email address in first.";
-    window.GENERIC_INVALID_MESSAGE = "That email looks about as broken as Codex right now. Double-check the format and try again.";
-    window.INVALID_NUMBER = "That email looks about as broken as Codex right now. Double-check the format and try again.";
+    window.GENERIC_INVALID_MESSAGE = "That email looks about as broken as Claude right now. Double-check the format and try again.";
+    window.INVALID_NUMBER = "That email looks about as broken as Claude right now. Double-check the format and try again.";
     window.INVALID_DATE = "Please enter a valid date";
     window.REQUIRED_MULTISELECT_MESSAGE = 'Please select at least 1 option';
     window.translation = {
@@ -266,10 +265,7 @@
   <script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
 
   <!-- Cloudflare Web Analytics — privacy-friendly, cookieless (no consent banner needed) -->
-  <!-- TODO(iscodexup): replace the token below with the NEW Cloudflare Web Analytics
-       beacon token for iscodexup.com (Cloudflare → Web Analytics → Add a site). The
-       value here is a placeholder and will NOT record any data until swapped. -->
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
-          data-cf-beacon='{"token": "REPLACE_WITH_ISCODEXUP_CF_TOKEN"}'></script>
+          data-cf-beacon='{"token": "5e067ff5a134468eba0a5da3f6006a71"}'></script>
 </body>
 </html>

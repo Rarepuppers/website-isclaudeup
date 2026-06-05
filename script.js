@@ -1,4 +1,4 @@
-// iscodexup.com — pure client-side, no backend.
+// isclaudeup.com — pure client-side, no backend.
 // Reads the official Statuspage API live (CORS is open: Access-Control-Allow-Origin: *).
 // Product-specific values (status URL, copy, art, quotes) live in config.js → window.SITE.
 
@@ -67,7 +67,7 @@ function render(data) {
   els.components.innerHTML = "";
   let comps = (data.components || []).filter((c) => !c.group); // skip group containers
   // Optional per-site trimming (config.js → SITE.components) for vendors that list
-  // dozens of components (config.js → SITE.components trims via an allowlist).
+  // dozens of components. Defaults below keep the full list (current isclaudeup behavior).
   const compCfg = SITE.components || {};
   if (Array.isArray(compCfg.include) && compCfg.include.length) {
     const want = compCfg.include.map((s) => s.toLowerCase());

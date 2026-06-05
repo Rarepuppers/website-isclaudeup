@@ -286,7 +286,7 @@ body[data-state="down"] .smash img { filter: drop-shadow(0 0 18px rgba(220, 38, 
 
 /* ---------- CONTEXTUAL BACKUP TOOLS (outage only) ---------- */
 .alternatives {
-  display: none; /* hidden when the product is up — keeps the calm view clean */
+  display: none; /* hidden when Claude is up — keeps the calm view clean */
   background: var(--card);
   border: 1px solid var(--warn);
   border-radius: var(--radius);
@@ -320,7 +320,7 @@ body[data-state="degraded"] .alternatives { display: block; }
 .alt-list span { color: var(--muted); font-size: 13px; }
 .alt-disclaimer { color: var(--muted); font-size: 12px; margin-top: 14px; }
 
-/* ---------- COMPANION TOOLS (always visible — pairs WITH the product, not a substitute) ---------- */
+/* ---------- COMPANION TOOLS (always visible — pairs WITH Claude, not a substitute) ---------- */
 /* Deliberately separate from .alternatives: these are not outage fallbacks, so they
    show in the calm "up" view too. Kept quieter than .alternatives so the backup-tools
    slot stays the credible centrepiece. */

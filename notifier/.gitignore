@@ -1,0 +1,7 @@
+# Wrangler local cache + build artifacts
+.wrangler/
+node_modules/
+
+# Local secrets file — NEVER commit. Real secrets live in Cloudflare (wrangler secret put).
+.dev.vars
+.env

@@ -320,6 +320,20 @@ body[data-state="degraded"] .alternatives { display: block; }
 .alt-list span { color: var(--muted); font-size: 13px; }
 .alt-disclaimer { color: var(--muted); font-size: 12px; margin-top: 14px; }
 
+/* ---------- COMPANION TOOLS (always visible — pairs WITH Claude, not a substitute) ---------- */
+/* Deliberately separate from .alternatives: these are not outage fallbacks, so they
+   show in the calm "up" view too. Kept quieter than .alternatives so the backup-tools
+   slot stays the credible centrepiece. */
+.companions {
+  margin: 28px auto 0;
+  max-width: 440px;
+  text-align: center;
+}
+.companions h2 { margin: 0 0 4px; font-size: 16px; color: var(--muted); font-weight: 700; }
+.companions > p { color: var(--muted); font-size: 13px; margin: 0 auto 12px; }
+/* reuses .alt-list markup for consistent row styling */
+.companions .alt-list { margin-top: 0; }
+
 /* ---------- FAQ ---------- */
 .faq {
   background: var(--card);

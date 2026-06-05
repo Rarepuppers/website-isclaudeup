@@ -1,0 +1,45 @@
+# Cloudflare Worker — recovery notifier. Deploy with `wrangler deploy` from this folder.
+# See README.md for first-time setup (KV namespace, secret, sender, list id).
+name = "isclaudeup-notifier"
+main = "src/worker.js"
+compatibility_date = "2025-01-01"
+
+# Cron: every minute. (Cloudflare's smallest interval — best "the second it's back".)
+[triggers]
+crons = ["* * * * *"]
+
+# Persistent state between ticks (last status, outage start, up-streak, last-notified).
+# Create with: wrangler kv namespace create STATE  → paste the returned id below.
+[[kv_namespaces]]
+binding = "STATE"
+id = "6993e75680744f45928b1d449fdfc601"
+
+[vars]
+# Same status feed the site reads. For iscodexup: https://status.openai.com/api/v2/summary.json
+STATUS_URL = "https://status.claude.com/api/v2/summary.json"
+
+# Brevo list to notify + verified sender. BREVO_LIST_ID is the numeric id of your
+# double-opt-in notify list. SENDER_EMAIL must be a Brevo-verified sender/domain.
+BREVO_LIST_ID = "5"
+SENDER_NAME = "Is Claude Up"
+# isclaudeup.com is authenticated in Brevo (DKIM + DMARC). Sends from the branded domain.
+SENDER_EMAIL = "notify@isclaudeup.com"
+
+# Copy/branding used in the email.
+PRODUCT = "Claude"
+SITE_URL = "https://isclaudeup.com"
+
+# Tuning. Which indicators count as a real outage (recovery from a "minor"/degraded
+# blip will NOT email unless you add "minor"). Then: minimum outage length before a
+# recovery is worth emailing, consecutive all-clear ticks to confirm, and a cooldown.
+OUTAGE_INDICATORS = "major,critical"
+MIN_OUTAGE_MINUTES = "3"
+UP_CONFIRM_TICKS = "2"
+# Min gap between two recovery emails. Collapses a flapping incident (down-up-down-up
+# over an hour or two) into ONE email. 180 = 3h. For a strict "max one email per day"
+# set 1440 — but that can suppress the recovery of a genuinely separate later incident.
+NOTIFY_COOLDOWN_MINUTES = "180"
+
+# Secrets (do NOT put these here — set via `wrangler secret put`):
+#   BREVO_API_KEY  — Brevo API v3 key
+#   ADMIN_KEY      — optional, guards the /test-tick and /test-send debug routes

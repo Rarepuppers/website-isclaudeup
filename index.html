@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- FORKING THIS TO ANOTHER PRODUCT (e.g. iscodexup.com)? Runtime values live in
+       config.js; the static HTML swaps below are all listed in FORK.md. -->
+
   <title>Is Claude Down? — Live Claude &amp; Claude Code Status</title>
   <meta name="description" content="Live status of Claude and Claude Code. Find out instantly if Claude is down right now, and get an email the second it comes back up." />
 
@@ -80,6 +83,23 @@
       </ul>
       <p class="alt-disclaimer">Some links may be sponsored or affiliate links. We only list tools we'd actually use.</p>
     </section>
+
+    <!-- COMPANION TOOLS — pairs WITH Claude (not an outage fallback), so it shows in the calm view too.
+         STAGED: keep this commented out until the Wispr Flow affiliate application is approved.
+         To go live: (1) uncomment this block, (2) swap the href for the Dub/affiliate tracking
+         link, keeping rel="sponsored". Until a program is live, an honest unmonetized href + plain
+         rel="noopener" is fine (same approach as the Perplexity row above). Do NOT pile more tools
+         in here — one genuinely-complementary pick keeps it credible. -->
+    <!--
+    <section class="companions">
+      <h2>Pairs well with Claude</h2>
+      <p>A tool we actually use alongside it day to day.</p>
+      <ul class="alt-list">
+        <li><a href="https://wisprflow.ai" target="_blank" rel="sponsored noopener">Wispr Flow</a> <span>voice-to-text — dictate straight into Claude</span></li>
+      </ul>
+      <p class="alt-disclaimer">Sponsored/affiliate link. We only list tools we'd actually use.</p>
+    </section>
+    -->
 
     <!-- NEWSLETTER (the real asset) -->
     <section class="signup">
@@ -218,6 +238,8 @@
     </footer>
   </main>
 
+  <!-- config.js MUST load before script.js (script.js reads window.SITE) -->
+  <script src="config.js"></script>
   <script src="script.js"></script>
 
   <!-- Brevo form handler (validation + AJAX submit). Witty messages set below. -->

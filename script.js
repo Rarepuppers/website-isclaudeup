@@ -1,7 +1,8 @@
 // isclaudeup.com — pure client-side, no backend.
 // Reads the official Statuspage API live (CORS is open: Access-Control-Allow-Origin: *).
+// Product-specific values (status URL, copy, art, quotes) live in config.js → window.SITE.
 
-const STATUS_URL = "https://status.claude.com/api/v2/summary.json";
+const STATUS_URL = SITE.statusUrl;
 
 const els = {
   body: document.body,
@@ -16,17 +17,13 @@ const els = {
   smashImg: document.getElementById("smash-img"),
 };
 
-const ROBOTS = {
-  up: "assets/robot-up.webp",
-  degraded: "assets/robot-degraded.webp",
-  down: "assets/robot-down.webp",
-};
+const ROBOTS = SITE.robots;
 // Button: default (resting) until status is known, then green (up) / red (down).
-const DEFAULT_BUTTON = "assets/smash-button.webp";
+const DEFAULT_BUTTON = SITE.buttons.default;
 const BUTTONS = {
-  up: "assets/button-green.webp",
+  up: SITE.buttons.up,
   degraded: DEFAULT_BUTTON, // intermittent: keep the neutral button
-  down: "assets/button-red.webp",
+  down: SITE.buttons.down,
 };
 // Warm the cache for the other states so swaps are instant
 [...Object.values(ROBOTS), ...Object.values(BUTTONS), DEFAULT_BUTTON].forEach((src) => {
@@ -42,16 +39,16 @@ function render(data) {
 
   if (indicator === "none") {
     state = "up";
-    verdict = "YES";
-    subline = "Claude is up. Back to work. 🫡";
+    verdict = SITE.copy.up.verdict;
+    subline = SITE.copy.up.subline;
   } else if (indicator === "minor") {
     state = "degraded";
-    verdict = "KINDA";
-    subline = data.status.description || "Some services are degraded.";
+    verdict = SITE.copy.degraded.verdict;
+    subline = data.status.description || SITE.copy.degraded.subline;
   } else {
     state = "down";
-    verdict = "NO";
-    subline = data.status.description || "Claude is having a rough time.";
+    verdict = SITE.copy.down.verdict;
+    subline = data.status.description || SITE.copy.down.subline;
   }
 
   els.body.dataset.state = state;
@@ -68,9 +65,16 @@ function render(data) {
 
   // Component breakdown
   els.components.innerHTML = "";
-  (data.components || [])
-    .filter((c) => !c.group) // skip group containers
-    .forEach((c) => {
+  let comps = (data.components || []).filter((c) => !c.group); // skip group containers
+  // Optional per-site trimming (config.js → SITE.components) for vendors that list
+  // dozens of components. Defaults below keep the full list (current isclaudeup behavior).
+  const compCfg = SITE.components || {};
+  if (Array.isArray(compCfg.include) && compCfg.include.length) {
+    const want = compCfg.include.map((s) => s.toLowerCase());
+    comps = comps.filter((c) => want.includes((c.name || "").toLowerCase()));
+  }
+  if (compCfg.limit > 0) comps = comps.slice(0, compCfg.limit);
+  comps.forEach((c) => {
       const li = document.createElement("li");
       const name = document.createElement("span");
       name.textContent = c.name;
@@ -93,35 +97,13 @@ async function checkStatus() {
     // If the official page is itself unreachable, that's usually... a sign.
     els.body.dataset.state = "down";
     els.verdict.textContent = "?";
-    els.subline.textContent =
-      "Can't even reach the status page. That's rarely a good sign.";
+    els.subline.textContent = SITE.copy.unreachable;
     els.updated.textContent = new Date().toLocaleTimeString();
   }
 }
 
 // ---------- SMASH BUTTON + QUOTES ----------
-const quotes = [
-  "My assignment is due tomorrow and I just started.",
-  "If Claude goes down, so does my productivity.",
-  "I forgot how to code without it.",
-  "Refreshing this page is my whole personality now.",
-  "It was working FINE thirty seconds ago.",
-  "I have 14 tabs of half-finished prompts.",
-  "Please. I was so close.",
-  "My standup is in 10 minutes and I have nothing.",
-  "Switching to Stack Overflow like it's 2015.",
-  "I will touch grass the moment it's back. Not before.",
-  "Have you tried turning the AI off and on again?",
-  "This is the longest 4 minutes of my life.",
-  "I'm thinking of using Antigravit— haha, no one uses that.",
-  "What's the URL for Codex again?",
-  "Does this mean we get another usage reset?",
-  "Guess I'll go open Cursor. Ugh.",
-  "Copilot it is, then. May God have mercy.",
-  "I'd ask Gemini but I have my dignity.",
-  "Is it down for everyone or just me being punished?",
-  "My rate limit reset 3 minutes ago and now THIS.",
-];
+const quotes = SITE.quotes;
 
 // ---------- PANIC COUNTER (split-flap odometer) ----------
 // Fully faked for now (no backend). Represents "panic-checks in the last 24h".

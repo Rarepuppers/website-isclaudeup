@@ -32,23 +32,62 @@ const BUTTONS = {
 });
 
 // ---------- THE VERDICT ----------
-// Statuspage indicator values: "none" | "minor" | "major" | "critical"
-function render(data) {
-  const indicator = data?.status?.indicator || "none";
-  let state, verdict, subline;
+// Two signals feed the verdict, and we surface the WORST of them:
+//   1. Page-level indicator: "none" | "minor" | "major" | "critical"
+//   2. Per-component status:  "operational" | "degraded_performance" |
+//      "partial_outage" | "major_outage" | "under_maintenance"
+// Anthropic sometimes flags a single component (e.g. degraded/partial) while the
+// page-level indicator still reads "none" during an intermittent blip — reading
+// only the indicator would miss it, so we also scan the components themselves.
+const STATE_RANK = { up: 0, degraded: 1, down: 2 };
 
-  if (indicator === "none") {
-    state = "up";
+function stateFromComponentStatus(status) {
+  const s = String(status || "operational").toLowerCase();
+  if (s === "major_outage" || s === "partial_outage") return "down";
+  if (s === "degraded_performance" || s === "under_maintenance") return "degraded";
+  return "up";
+}
+
+function stateFromPageIndicator(indicator) {
+  if (indicator === "none") return "up";
+  if (indicator === "minor") return "degraded";
+  return "down"; // major | critical
+}
+
+function worstState(a, b) {
+  return STATE_RANK[a] >= STATE_RANK[b] ? a : b;
+}
+
+function render(data) {
+  const comps = (data.components || []).filter((c) => !c.group); // skip group containers
+
+  // Worst component status, then combined with the page-level indicator.
+  const componentState = comps.reduce(
+    (worst, c) => worstState(worst, stateFromComponentStatus(c.status)),
+    "up"
+  );
+  const indicatorState = stateFromPageIndicator(data?.status?.indicator || "none");
+  const state = worstState(componentState, indicatorState);
+
+  // Components not fully operational — used to name names in the subline.
+  const affected = comps
+    .filter((c) => stateFromComponentStatus(c.status) !== "up")
+    .map((c) => c.name);
+
+  let verdict, subline;
+  if (state === "up") {
     verdict = SITE.copy.up.verdict;
     subline = SITE.copy.up.subline;
-  } else if (indicator === "minor") {
-    state = "degraded";
+  } else if (state === "degraded") {
     verdict = SITE.copy.degraded.verdict;
-    subline = data.status.description || SITE.copy.degraded.subline;
+    subline = affected.length
+      ? `Some services are degraded: ${affected.join(", ")}.`
+      : data.status.description || SITE.copy.degraded.subline;
   } else {
-    state = "down";
     verdict = SITE.copy.down.verdict;
-    subline = data.status.description || SITE.copy.down.subline;
+    subline = affected.length
+      ? `Services reporting problems: ${affected.join(", ")}.`
+      : data.status.description || SITE.copy.down.subline;
   }
 
   els.body.dataset.state = state;
@@ -65,16 +104,16 @@ function render(data) {
 
   // Component breakdown
   els.components.innerHTML = "";
-  let comps = (data.components || []).filter((c) => !c.group); // skip group containers
+  let list = comps;
   // Optional per-site trimming (config.js → SITE.components) for vendors that list
   // dozens of components. Defaults below keep the full list (current isclaudeup behavior).
   const compCfg = SITE.components || {};
   if (Array.isArray(compCfg.include) && compCfg.include.length) {
     const want = compCfg.include.map((s) => s.toLowerCase());
-    comps = comps.filter((c) => want.includes((c.name || "").toLowerCase()));
+    list = list.filter((c) => want.includes((c.name || "").toLowerCase()));
   }
-  if (compCfg.limit > 0) comps = comps.slice(0, compCfg.limit);
-  comps.forEach((c) => {
+  if (compCfg.limit > 0) list = list.slice(0, compCfg.limit);
+  list.forEach((c) => {
       const li = document.createElement("li");
       const name = document.createElement("span");
       name.textContent = c.name;
@@ -154,15 +193,16 @@ const counter = (() => {
     return Math.floor(target * frac);
   }
 
-  // outage contribution: 0 when up; otherwise scales with outage duration
+  // outage contribution: 0 when up; otherwise scales with outage duration.
+  // Uses the computed state (set via setStatus) so a component-only degraded —
+  // one the page-level indicator never escalated — still drives the counter.
   function outageBase(now) {
-    const ind = data?.status?.indicator || "none";
-    if (ind === "none") {
+    if (state === "up") {
       outageSeenAt = 0;
       localStorage.removeItem("outageSeenAt");
       return 0;
     }
-    const severe = ind !== "minor"; // major / critical
+    const severe = state === "down"; // down vs degraded
     // earliest active incident start from the API, else first time WE saw it
     let start = null;
     (data?.incidents || []).forEach((inc) => {

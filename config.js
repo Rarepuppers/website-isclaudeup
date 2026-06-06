@@ -152,5 +152,12 @@ window.SITE = {
     "The terminal is cold and quiet without you, Claude.",
     "I've forgotten every keyboard shortcut except F5.",
     "Cursor, Windsurf, Copilot — it's giving rebound relationship.",
+    "Refreshing Alex Albert's timeline harder than I refresh this page.",
+    "Alex Albert, this is your sign to tweet that we're back.",
+    "My emotional support account is Alex Albert's Twitter.",
+    "Somewhere, Alex Albert is drafting the tweet that fixes my whole day.",
+    "I don't need a therapist, I need Alex Albert to tweet 'all clear'.",
+    "Checking Alex Albert's mentions for hope like it's a status page.",
+    "Alex posts an update and suddenly I believe in something again.",
   ],
 };

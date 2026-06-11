@@ -13,10 +13,90 @@
   <meta property="og:title" content="Is Claude Down Right Now?" />
   <meta property="og:description" content="Live Claude &amp; Claude Code status. Get notified the second it's back up." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://isclaudeup.com" />
+  <meta property="og:url" content="https://isclaudeup.com/" />
+  <meta property="og:site_name" content="Is Claude Up" />
+  <meta property="og:image" content="https://isclaudeup.com/assets/claude-logo-256.png" />
+  <meta property="og:image:alt" content="Is Claude Up status robot logo." />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Is Claude Down Right Now?" />
+  <meta name="twitter:description" content="Live Claude &amp; Claude Code status. Get notified the second it's back up." />
+  <meta name="twitter:image" content="https://isclaudeup.com/assets/claude-logo-256.png" />
+  <meta name="theme-color" content="#0f1115" />
 
   <link rel="canonical" href="https://isclaudeup.com/" />
   <link rel="icon" type="image/png" href="assets/claude-logo-256.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Is Claude Up",
+    "alternateName": "Is Claude Down?",
+    "url": "https://isclaudeup.com/",
+    "description": "Live status of Claude and Claude Code, pulled from Anthropic's official status feed, with email alerts the moment Claude recovers.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "SnackPack Universe",
+      "url": "https://www.snackpackuniverse.com/"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is Claude down right now?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "This page checks Anthropic's official status feed live when it loads, and again every 30 seconds. If the big answer reads NO, Claude is reporting problems; YES means all systems are operational."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it Claude that's down, or my internet?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Quick checks: load another website to rule out your connection, try Claude in an incognito window or on a different network, and clear your cache. If this page shows Claude as up but it still fails for you, the problem is likely local — your network, a browser extension, or your account."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What's the difference between Claude and Claude Code being down?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Claude (claude.ai) is the chat app and the API; Claude Code is the command-line / agent tool for developers. They can fail independently — the API can be degraded while the website is fine, or vice versa. The service breakdown shows each component separately."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Where does this site get its status data?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Straight from Anthropic's official status page at status.claude.com — the same source Anthropic publishes. We don't run our own probes or guess, so what you see here matches the official report."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will you email me when Claude is back up?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes — that's the whole point. Pop your email in the signup box and we'll send a single message the moment Claude recovers, so you can get straight back to work."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How often does Claude go down?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Like any large online service, Claude is up the vast majority of the time but has the occasional incident — usually brief, and sometimes affecting only one component (a single model, or just the API). For the official history of past incidents, see status.claude.com."
+        }
+      }
+    ]
+  }
+  </script>
 
   <!-- Preload the "up" robot + default button so the first paint is instant during a spike -->
   <link rel="preload" as="image" href="assets/robot-up.webp" />

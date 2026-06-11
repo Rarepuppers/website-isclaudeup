@@ -1,0 +1,16 @@
+# Is Claude Up
+
+> isclaudeup.com answers one question: is Claude down right now? It reads Anthropic's official status feed (status.claude.com) live — covering Claude (claude.ai), the Claude API, and Claude Code — and shows a plain YES/NO verdict with a per-component service breakdown. Free email alerts notify subscribers the moment Claude recovers from an outage.
+
+Key facts: status data comes straight from Anthropic's official status page, refreshed every 30 seconds — no independent probes or guesses. The site is an independent status helper built by SnackPack Universe and is not affiliated with, endorsed by, or sponsored by Anthropic. No account is needed; the only data collected is an email address voluntarily submitted for back-up alerts.
+
+## Pages
+
+- [Home / live status](https://isclaudeup.com/): The live YES/NO verdict, per-component breakdown (claude.ai, API, Claude Code), recovery email signup, and a Claude outage FAQ.
+- [Privacy policy](https://isclaudeup.com/privacy.html): What's collected (an email address, if submitted) and the third parties involved.
+- [Sponsor](https://isclaudeup.com/sponsor.html): Sponsorship options for reaching developers during Claude outages.
+
+## Related
+
+- [Is Codex Up](https://iscodexup.com/): Sister site answering the same question for OpenAI Codex.
+- [SnackPack Universe](https://www.snackpackuniverse.com/): The studio behind this site.

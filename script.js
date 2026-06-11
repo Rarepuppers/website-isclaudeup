@@ -77,7 +77,10 @@ function render(data) {
   let verdict, subline;
   if (state === "up") {
     verdict = SITE.copy.up.verdict;
-    subline = SITE.copy.up.subline;
+    const ups = SITE.copy.up.sublines;
+    subline = ups && ups.length
+      ? ups[Math.floor(Math.random() * ups.length)]
+      : SITE.copy.up.subline;
   } else if (state === "degraded") {
     verdict = SITE.copy.degraded.verdict;
     subline = affected.length

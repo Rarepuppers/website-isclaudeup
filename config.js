@@ -15,7 +15,33 @@ window.SITE = {
   // Verdict copy per state. For degraded/down, the live incident description from
   // the API is used first; these strings are the fallback when none is provided.
   copy: {
-    up:          { verdict: "YES",   subline: "Claude is up. Back to work." },
+    // up.sublines is picked at random each render — keep them in-character.
+    up: {
+      verdict: "YES",
+      sublines: [
+        "Claude is up. Back to work.",
+        "Claude is up. No more excuses.",
+        "Claude is up. Touch grass later.",
+        "Claude is up. The vibes are compiling again.",
+        "Claude is up. Your roadmap is no longer folklore.",
+        "Claude is up. Close the other 14 tabs.",
+        "Claude is up. Standup is saved.",
+        "Claude is up. You may stop refreshing now.",
+        "Claude is up. Cancel the Stack Overflow pilgrimage.",
+        "Claude is up. Tell Codex it was nothing personal.",
+        "Claude is up. Put Gemini back in the drawer.",
+        "Claude is up. Your keyboard has purpose again.",
+        "Claude is up. The human-in-the-loop is off duty.",
+        "Claude is up. Resume vibe coding immediately.",
+        "Claude is up. Crisis averted, deploy with confidence.",
+        "Claude is up. Pretend the panic never happened.",
+        "Claude is up. Your impostor syndrome can stand down.",
+        "Claude is up. Ship the thing you were one prompt away from.",
+        "Claude is up. Antigravity can wait for someone else.",
+        "Claude is up. Go be a 10x engineer again.",
+      ],
+      subline: "Claude is up. Back to work.",
+    },
     degraded:    { verdict: "KINDA", subline: "Some services are degraded." },
     down:        { verdict: "NO",    subline: "Claude is having a rough time." },
     unreachable: "Can't even reach the status page. That's rarely a good sign.",

@@ -29,6 +29,14 @@
   <link rel="canonical" href="https://isclaudeup.com/" />
   <link rel="icon" type="image/png" href="assets/claude-logo-256.png" />
 
+  <!-- PWA: installable on Windows (Edge/Chrome) and Android home screen -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icon-192.png" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="IsClaudeUp" />
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -417,5 +425,12 @@
   <!-- Cloudflare Web Analytics — privacy-friendly, cookieless (no consent banner needed) -->
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
           data-cf-beacon='{"token": "5e067ff5a134468eba0a5da3f6006a71"}'></script>
+
+  <!-- PWA: register the service worker so the site is installable / works offline -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+    }
+  </script>
 </body>
 </html>

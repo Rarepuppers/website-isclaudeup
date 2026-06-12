@@ -58,6 +58,15 @@ function worstState(a, b) {
   return STATE_RANK[a] >= STATE_RANK[b] ? a : b;
 }
 
+// Pick a random subline from a copy state's `sublines` array, falling back to its
+// single `subline` string. Used for up/degraded/down so every verdict gets variety.
+function pickSubline(copyState) {
+  const arr = copyState && copyState.sublines;
+  return arr && arr.length
+    ? arr[Math.floor(Math.random() * arr.length)]
+    : (copyState && copyState.subline) || "";
+}
+
 function render(data) {
   const comps = (data.components || []).filter((c) => !c.group); // skip group containers
 
@@ -77,20 +86,17 @@ function render(data) {
   let verdict, subline;
   if (state === "up") {
     verdict = SITE.copy.up.verdict;
-    const ups = SITE.copy.up.sublines;
-    subline = ups && ups.length
-      ? ups[Math.floor(Math.random() * ups.length)]
-      : SITE.copy.up.subline;
+    subline = pickSubline(SITE.copy.up);
   } else if (state === "degraded") {
     verdict = SITE.copy.degraded.verdict;
     subline = affected.length
       ? `Some services are degraded: ${affected.join(", ")}.`
-      : data.status.description || SITE.copy.degraded.subline;
+      : data.status.description || pickSubline(SITE.copy.degraded);
   } else {
     verdict = SITE.copy.down.verdict;
     subline = affected.length
       ? `Services reporting problems: ${affected.join(", ")}.`
-      : data.status.description || SITE.copy.down.subline;
+      : data.status.description || pickSubline(SITE.copy.down);
   }
 
   els.body.dataset.state = state;

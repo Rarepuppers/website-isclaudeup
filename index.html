@@ -104,6 +104,22 @@
           "@type": "Answer",
           "text": "Like any large online service, Claude is up the vast majority of the time but has the occasional incident — usually brief, and sometimes affecting only one component (a single model, or just the API). For the official history of past incidents, see status.claude.com."
         }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Claude Code down?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Claude Code (the command-line / agent tool for developers) is tracked separately in the service breakdown above. It can be down even when claude.ai and the API are fine, so check that specific component. If this page shows Claude Code as operational but it still fails for you, the issue is likely local — your CLI version, network, or auth token."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What's the Claude API status right now?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Claude API is shown as its own line in the service breakdown above, pulled live from Anthropic's official status feed. The API can be degraded independently of the claude.ai website or Claude Code, which is why developers often see failures while the chat app works fine."
+        }
       }
     ]
   }
@@ -319,6 +335,16 @@
       <details>
         <summary>How often does Claude go down?</summary>
         <p>Like any large online service, Claude is up the vast majority of the time but has the occasional incident — usually brief, and sometimes affecting only one component (a single model, or just the API). For the official history of past incidents, see status.claude.com.</p>
+      </details>
+
+      <details>
+        <summary>Is Claude Code down?</summary>
+        <p>Claude Code — the command-line / agent tool for developers — is tracked separately in the service breakdown above. It can be down even when claude.ai and the API are fine, so check that specific component. If this page shows Claude Code as operational but it still fails for you, the issue is likely local — your CLI version, network, or auth token.</p>
+      </details>
+
+      <details>
+        <summary>What's the Claude API status right now?</summary>
+        <p>The Claude API is shown as its own line in the service breakdown above, pulled live from Anthropic's official status feed. The API can be degraded independently of the claude.ai website or Claude Code, which is why developers often see failures while the chat app works fine.</p>
       </details>
     </section>
 

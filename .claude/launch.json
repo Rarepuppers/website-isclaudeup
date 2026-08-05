@@ -6,6 +6,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["-y", "http-server", "-p", "4178", "-c-1"],
       "port": 4178
+    },
+    {
+      "name": "snackpack-static",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "http-server", "C:/snackpack-universe/website-snackpack-universe", "-p", "8099", "-c-1"],
+      "port": 8099
     }
   ]
 }

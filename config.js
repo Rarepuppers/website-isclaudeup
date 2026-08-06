@@ -6,6 +6,9 @@
 window.SITE = {
   // The product whose status we report (used only in copy below).
   product: "Claude",
+  // Who runs the status page. Used when a vendor-wide incident doesn't touch any
+  // of our scoped components ("...but Anthropic is reporting a wider incident").
+  vendor: "Anthropic",
 
   // Status data source. MUST be a Statuspage v2 "summary.json" endpoint that
   // sends CORS `Access-Control-Allow-Origin: *` (most public Statuspage sites do).
@@ -53,12 +56,13 @@ window.SITE = {
         "Claude is up. The terminal missed you too.",
         "Claude is up. Tell Jira to lower its expectations on schedule.",
         "Claude is up. Flow state, you are cleared for takeoff.",
-        "Claude is up. The rubber duck may stand down.",
         "Claude is up. Merge with reckless confidence.",
-        "Claude is up. Your impostor syndrome has logged off.",
         "Claude is up. Promote yourself back to 10x.",
         "Claude is up. The autocomplete autocompletes once more.",
         "Claude is up. Go ship something you'll regret on Friday.",
+        "Claude is up. Tibo can go back to his own timeline.",
+        "Claude is up. Uninstall the backup CLI. Or don't. We won't tell.",
+        "Claude is up. Your subagents are back on the payroll.",
       ],
       subline: "Claude is up. Back to work.",
     },
@@ -267,5 +271,49 @@ window.SITE = {
     "The agent stopped, the cursor blinks, and the abyss blinks back.",
     "I'm one outage away from reading my own stack trace like a fortune teller.",
     "Productivity is temporary. The smash button is forever.",
+
+    // --- The rival camp's public face. Tibo (Thibault Sottiaux) leads Codex at OpenAI;
+    // iscodexup ribs Alex Albert the same way. Keep these AFFECTIONATE and about the
+    // narrator's own paranoia — never put words or actions in a real person's mouth. ---
+    "Claude's down and Tibo has never been more insufferable.",
+    "Somewhere, Tibo is enjoying this far too much.",
+    "If I open Codex now, Tibo wins. I refuse.",
+    "Tibo's timeline is suspiciously cheerful this morning.",
+    "I'd defect to Tibo's side, but I'd have to learn a whole new CLI.",
+    "Do not let Tibo see the panic counter.",
+    "I will not give Tibo the satisfaction. I will simply sit here.",
+    "Tibo is out there shipping and I am out here refreshing.",
+
+    // --- The switching cluster: leaving in shame, coming back pretending it never happened. ---
+    "Switching to Codex 'just for today'. That's what they all say.",
+    "I installed Codex during the last outage and never quite uninstalled it.",
+    "My loyalty lasts exactly as long as the outage does.",
+    "Every outage makes me five percent more multi-model.",
+    "I'm not switching, I'm diversifying.",
+    "Came back the second it was up. Codex will never know.",
+    "I keep Codex installed the way you keep a spare tyre.",
+    "The switching cost is emotional, not technical.",
+    "Two CLIs, one keyboard, zero loyalty.",
+    "I ran the same prompt in Codex out of spite. It was fine. That's worse.",
+    "If it's down again tomorrow I'm switching, and we both know I'm lying.",
+    "I have a backup subscription for exactly this scenario and I resent it.",
+    "Nothing radicalises a developer like four minutes of downtime.",
+    "I'm one more outage from a very awkward conversation with my Claude plan.",
+
+    // --- Agent-era material: the workflow is bigger than one chat box now. ---
+    "My subagents are sitting there, unemployed.",
+    "The MCP servers are up. Nothing to serve them to.",
+    "The agent opened forty PRs and then vanished. Classic.",
+    "Turns out 'autonomous' still requires the servers to be switched on.",
+    "I finally have time to read what the agent actually did last week. Regrets.",
+    "Context compaction hit, and then so did the outage.",
+    "I reviewed a diff by hand today. I need a moment.",
+    "My whole workflow is one API away from being a hobby.",
+    "Rate limits I can plan around. Absence is harder.",
+    "DeepSeek is one tab away and I am being very strong about this.",
+    "Kimi and Qwen are apparently having a wonderful day.",
+    "Mistral said bonjour and I nearly caved.",
+    "The orchestrator has nothing to orchestrate.",
+    "Somewhere a cron job is still cheerfully firing into the void.",
   ],
 };

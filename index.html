@@ -6,7 +6,8 @@
   <!-- FORKING THIS TO ANOTHER PRODUCT (e.g. iscodexup.com)? Runtime values live in
        config.js; the static HTML swaps below are all listed in FORK.md. -->
 
-  <title>Is Claude Down? — Live Claude &amp; Claude Code Status</title>
+  <!-- "right now" is in the actual query people type ("is claude down right now"), so keep it in the title. -->
+  <title>Is Claude Down Right Now? — Live Claude &amp; Claude Code Status</title>
   <meta name="description" content="Live status of Claude and Claude Code. Find out instantly if Claude is down right now, and get an email the second it comes back up." />
 
   <!-- Google Search Console verification -->
@@ -18,12 +19,17 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://isclaudeup.com/" />
   <meta property="og:site_name" content="Is Claude Up" />
-  <meta property="og:image" content="https://isclaudeup.com/assets/claude-logo-256.png" />
-  <meta property="og:image:alt" content="Is Claude Up status robot logo." />
-  <meta name="twitter:card" content="summary" />
+  <!-- 1200x630 card. This is the growth loop: people paste this link into Slack/X mid-outage,
+       and a large card gets clicked far more than the old 256px `summary` thumbnail. -->
+  <meta property="og:image" content="https://isclaudeup.com/assets/og-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Is Claude down right now? Live Claude and Claude Code status." />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Is Claude Down Right Now?" />
   <meta name="twitter:description" content="Live Claude &amp; Claude Code status. Get notified the second it's back up." />
-  <meta name="twitter:image" content="https://isclaudeup.com/assets/claude-logo-256.png" />
+  <meta name="twitter:image" content="https://isclaudeup.com/assets/og-card.png" />
+  <meta name="twitter:image:alt" content="Is Claude down right now? Live Claude and Claude Code status." />
   <meta name="theme-color" content="#0f1115" />
 
   <link rel="canonical" href="https://isclaudeup.com/" />
@@ -45,6 +51,25 @@
     "alternateName": "Is Claude Down?",
     "url": "https://isclaudeup.com/",
     "description": "Live status of Claude and Claude Code, pulled from Anthropic's official status feed, with email alerts the moment Claude recovers.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "SnackPack Universe",
+      "url": "https://www.snackpackuniverse.com/"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Is Claude Up",
+    "url": "https://isclaudeup.com/",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any (web browser)",
+    "browserRequirements": "Requires JavaScript.",
+    "description": "A live Claude status checker: reads Anthropic's official status feed every 30 seconds and shows a plain YES/NO answer, with optional email alerts when Claude recovers from an outage.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "isAccessibleForFree": true,
     "publisher": {
       "@type": "Organization",
       "name": "SnackPack Universe",
@@ -168,6 +193,19 @@
         <span id="count" class="odometer" aria-label="panic checks in the last 24 hours"></span>
         panic-checks in the last 24h
       </p>
+
+      <!-- The link gets pasted into Slack/X during outages — that's basically all our
+           organic reach. Make it one tap. Native share sheet on mobile, clipboard elsewhere. -->
+      <button class="share" id="share" type="button" aria-label="Share this page">
+        <span class="share-icon" aria-hidden="true">🔗</span>
+        <span class="share-label">Share this page</span>
+      </button>
+
+      <!-- Sister site. The .alternatives block below is hidden while Claude is up, so
+           without this line the cross-link only exists in the footer on a calm day. -->
+      <p class="sister">
+        Using Codex too? <a href="https://iscodexup.com/">Check Codex status &rarr;</a>
+      </p>
     </section>
 
     <!-- CONTEXTUAL BACKUP TOOLS — only shown during an outage (CSS toggles on data-state) -->
@@ -175,6 +213,10 @@
       <h2>Stuck while Claude's down?</h2>
       <p>Keep moving with one of these until it's back — we'll still email you the second it recovers.</p>
       <ul class="alt-list">
+        <!-- Codex goes FIRST and links to our own sister site's status check, not straight to
+             OpenAI: if someone is bailing out of Claude anyway, they should at least find out
+             whether the alternative is up before they switch. iscodexup mirrors this with Claude Code. -->
+        <li><a href="https://iscodexup.com/" target="_blank" rel="noopener">OpenAI Codex</a> <span>agentic coding CLI — check it's up first</span></li>
         <li><a href="https://cursor.com" target="_blank" rel="sponsored noopener">Cursor</a> <span>AI code editor</span></li>
         <li><a href="https://github.com/features/copilot" target="_blank" rel="sponsored noopener">GitHub Copilot</a> <span>in-IDE autocomplete</span></li>
         <li><a href="https://windsurf.com" target="_blank" rel="sponsored noopener">Windsurf</a> <span>agentic IDE</span></li>
@@ -334,7 +376,7 @@
 
       <details>
         <summary>How often does Claude go down?</summary>
-        <p>Like any large online service, Claude is up the vast majority of the time but has the occasional incident — usually brief, and sometimes affecting only one component (a single model, or just the API). For the official history of past incidents, see status.claude.com.</p>
+        <p>Like any large online service, Claude is up the vast majority of the time but has the occasional incident — usually brief, and sometimes affecting only one component (a single model, or just the API). We keep a running <a href="history.html">Claude outage history</a> with the incident count for the last 30 and 90 days and how long each one lasted, straight from Anthropic's feed.</p>
       </details>
 
       <details>
@@ -358,6 +400,9 @@
         <a href="https://status.claude.com" target="_blank" rel="noopener">status.claude.com</a>.
         This is an independent status helper. It is not affiliated with, endorsed by, or sponsored by Anthropic. Claude and Anthropic are trademarks of Anthropic.
         Last checked <span id="updated">—</span>.
+      </p>
+      <p class="foot-network">
+        <a href="history.html">Claude outage history</a> — how often it goes down, and for how long.
       </p>
       <p class="foot-network">
         Also checking Codex? <a href="https://iscodexup.com/" target="_blank" rel="noopener">Visit iscodexup.com</a>.

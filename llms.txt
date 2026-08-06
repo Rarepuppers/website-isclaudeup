@@ -7,6 +7,7 @@ Key facts: status data comes straight from Anthropic's official status page, ref
 ## Pages
 
 - [Home / live status](https://isclaudeup.com/): The live YES/NO verdict, per-component breakdown (claude.ai, API, Claude Code), recovery email signup, and a Claude outage FAQ.
+- [Claude outage history](https://isclaudeup.com/history.html): How often Claude goes down and for how long — incident counts for the last 30 and 90 days, median and longest incident length, and every recent incident with its official report link, all computed live from Anthropic's incidents feed.
 - [Privacy policy](https://isclaudeup.com/privacy.html): What's collected (an email address, if submitted) and the third parties involved.
 - [Sponsor](https://isclaudeup.com/sponsor.html): Sponsorship options for reaching developers during Claude outages.
 

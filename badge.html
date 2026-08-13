@@ -89,13 +89,11 @@
 
 <script>
 (function () {
-  // ── SET THIS ONCE, AFTER `wrangler deploy` ─────────────────────────────
   // The notifier Worker serves /badge.svg. isclaudeup.com is on GitHub Pages
   // and Cloudflare is analytics-only (it does not proxy this domain), so the
   // badge cannot live at isclaudeup.com/badge.svg without moving DNS to
-  // Cloudflare. Until then this is the workers.dev origin that wrangler prints.
-  var BADGE_ORIGIN = "https://isclaudeup-notifier.YOUR-SUBDOMAIN.workers.dev";
-  // ───────────────────────────────────────────────────────────────────────
+  // Cloudflare — hence the workers.dev origin. Deployed 2026-08-13.
+  var BADGE_ORIGIN = "https://isclaudeup-notifier.snackpackuniverse.workers.dev";
 
   var svg = BADGE_ORIGIN + "/badge.svg";
   var site = "https://isclaudeup.com";

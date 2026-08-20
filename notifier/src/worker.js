@@ -22,6 +22,8 @@ function cfg(env) {
     senderEmail: env.SENDER_EMAIL,
     product: env.PRODUCT || "the service",
     siteUrl: env.SITE_URL || "",
+    componentInclude: (env.COMPONENT_INCLUDE || "")
+      .split(",").map((s) => s.trim()).filter(Boolean),
     // Which Statuspage indicators count as a real outage worth notifying recovery from.
     // Default: only major/critical (a "minor"/degraded blip won't trigger a blast).
     outageIndicators: (env.OUTAGE_INDICATORS || "major,critical")
@@ -51,6 +53,52 @@ function saveState(env, state) {
   return env.STATE.put(STATE_KEY, JSON.stringify(state));
 }
 
+// Narrow the feed to the components we actually notify on.
+//
+// COMPONENT_INCLUDE names must match OpenAI's published component names exactly.
+// A stale list is invisible in normal operation — it just quietly stops matching —
+// so log loudly on every mismatch. A previous list matched no Codex component at
+// all, which meant a real Codex outage could never trigger a recovery email.
+function filteredComponents(data, c) {
+  const all = (data.components || []).filter((component) => !component.group);
+  if (!c.componentInclude.length) return all;
+
+  const want = c.componentInclude.map((s) => s.toLowerCase());
+  const have = new Set(all.map((component) => (component.name || "").toLowerCase()));
+  const missing = c.componentInclude.filter((n) => !have.has(n.toLowerCase()));
+  if (missing.length) {
+    console.warn(
+      `COMPONENT_INCLUDE names absent from the live feed: ${missing.join(", ")}. ` +
+        `Published names: ${all.map((component) => component.name).join(", ")}`
+    );
+  }
+
+  const matched = all.filter((component) => want.includes((component.name || "").toLowerCase()));
+  if (!matched.length) {
+    console.error(
+      "COMPONENT_INCLUDE matched NOTHING — falling back to the page-level indicator. Fix wrangler.toml."
+    );
+  }
+  return matched;
+}
+
+function indicatorFromComponentStatus(status) {
+  const s = String(status || "operational").toLowerCase();
+  if (s === "major_outage" || s === "partial_outage") return "major";
+  if (s === "degraded_performance" || s === "under_maintenance") return "minor";
+  return "none";
+}
+
+function scopedIndicator(data, c) {
+  const comps = filteredComponents(data, c);
+  if (!comps.length) return (data.status && data.status.indicator) || "none";
+
+  const indicators = comps.map((component) => indicatorFromComponentStatus(component.status));
+  if (indicators.includes("major")) return "major";
+  if (indicators.includes("minor")) return "minor";
+  return "none";
+}
+
 // Earliest active incident id (for de-dup / logging).
 function activeIncidentId(data) {
   const inc = (data.incidents || [])[0];
@@ -69,7 +117,12 @@ async function tick(env, { force = false } = {}) {
     return { action: "fetch-error", status: res.status };
   }
   const data = await res.json();
-  const indicator = (data.status && data.status.indicator) || "none";
+  // Scoped to the Claude components this site's audience actually uses, NOT the
+  // page-level indicator. Anthropic publishes six components and the global
+  // indicator averages all of them, so a Claude Code-only outage reads as
+  // "minor" (never triggering) and recovery requires all six green (so a
+  // lingering Cowork blip suppresses the email entirely).
+  const indicator = scopedIndicator(data, c);
   const isOutageNow = c.outageIndicators.includes(indicator);
   const isFullyUp = indicator === "none";
 
@@ -112,7 +165,7 @@ async function tick(env, { force = false } = {}) {
   // Write only when state changed — during steady operation this is a no-op, so KV
   // writes stay far under the free-tier 1,000/day (only transitions/recovery write).
   if (JSON.stringify(state) !== before) await saveState(env, state);
-  console.log(`tick: indicator=${indicator} action=${action} upStreak=${state.upStreak}`);
+  console.log(`tick: scopedIndicator=${indicator} action=${action} upStreak=${state.upStreak}`);
   return { action, indicator, state };
 }
 
@@ -125,8 +178,7 @@ function recoveryEmailHtml(c) {
       <h1 style="font-size:32px;margin:0 0 8px">✅ ${c.product} is back up</h1>
       <p style="color:#a8a8b8;font-size:16px;line-height:1.5">The official status page is reporting all systems operational again. Back to work.</p>
       ${link}
-      <p style="color:#6a6a78;font-size:12px;margin-top:32px">You're getting this because you asked to be notified when ${c.product} recovered.
-      {{ unsubscribe }}</p>
+      <p style="color:#6a6a78;font-size:12px;margin-top:32px">You're getting this because you asked to be notified when ${c.product} recovered.</p>
     </div></body></html>`;
 }
 
@@ -189,7 +241,10 @@ async function currentIndicator(env) {
     });
     if (!res.ok) return "unknown";
     const data = await res.json();
-    return (data.status && data.status.indicator) || "unknown";
+    // Scoped to the Claude components, same as tick(). The page-level indicator
+    // covers Cowork and Government too, so using it would let the badge read
+    // "operational" during a Claude Code-only incident the site reports as down.
+    return scopedIndicator(data, cfg(env));
   } catch (_) {
     return "unknown";
   }

@@ -18,6 +18,17 @@ id = "6993e75680744f45928b1d449fdfc601"
 # Same status feed the site reads. For iscodexup: https://status.openai.com/api/v2/summary.json
 STATUS_URL = "https://status.claude.com/api/v2/summary.json"
 
+# Scope the outage/recovery decision to the components this audience uses.
+# Anthropic publishes six; the page-level indicator averages all of them, which
+# meant a Claude Code-only incident never triggered a recovery email and a
+# lingering Cowork blip could suppress one. Deliberately EXCLUDES "Claude Cowork"
+# and "Claude for Government".
+#
+# Names must match the live feed exactly (case-insensitive); worker.js logs
+# loudly if any stop matching. Verified against the feed 2026-08-20.
+#   curl -s https://status.claude.com/api/v2/summary.json | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>JSON.parse(s).components.forEach(c=>console.log(c.name)))"
+COMPONENT_INCLUDE = "Claude Code,Claude API (api.anthropic.com),claude.ai"
+
 # Brevo list to notify + verified sender. BREVO_LIST_ID is the numeric id of your
 # double-opt-in notify list. SENDER_EMAIL must be a Brevo-verified sender/domain.
 BREVO_LIST_ID = "5"

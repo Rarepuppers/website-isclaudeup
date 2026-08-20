@@ -109,13 +109,22 @@ window.SITE = {
   // rel="sponsored noopener" so a paid placement never passes ranking signal.
   sponsors: [],
 
-  // Service-breakdown list trimming. Some vendors (e.g. OpenAI) expose 25+ components;
-  // most are noise for this audience. Defaults below show the FULL list (isclaudeup has
-  // only ~6, so it needs no trimming).
+  // Scope the headline verdict to the services used by the site's general audience.
+  // Cowork and Claude for Government remain visible on Anthropic's official page, but
+  // a niche-only incident should not report ordinary Claude as down here. The global
+  // indicator is still considered by script.js and can lift the verdict to degraded.
   //   include: exact component names to keep (case-insensitive). [] = show all.
   //   limit:   max rows after filtering. 0 = no limit.
-  // Codex example: include: ["API", "ChatGPT", "Codex", "Playground"], limit: 8
-  components: { include: [], limit: 0 },
+  // Keep these exact names aligned with https://status.claude.com/api/v2/summary.json.
+  components: {
+    include: [
+      "claude.ai",
+      "Claude Console (platform.claude.com)",
+      "Claude API (api.anthropic.com)",
+      "Claude Code",
+    ],
+    limit: 0,
+  },
 
   // Mascot + button art per state. Swap the files in /assets, keep the keys.
   robots:  { up: "assets/robot-up.webp", degraded: "assets/robot-degraded.webp", down: "assets/robot-down.webp" },

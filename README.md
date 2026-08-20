@@ -43,6 +43,11 @@ independently. A headline "All Systems Operational" banner averages all six, so
 Claude Code can be broken while the banner stays green. `claude-code-status.html`
 reads the feed and reports that one component on its own.
 
+The homepage verdict is scoped to claude.ai, Console, API and Claude Code. A
+Cowork-only or Government-only incident therefore does not report ordinary
+Claude as down; Anthropic's wider incident indicator can still surface it as a
+degraded state.
+
 If Anthropic ever renames or retires the component, the page reports **unknown**
 rather than falsely reporting up — see the `FAIL LOUD, NOT SILENT` comment in its
 inline script, and `scopeComponents()` in `script.js` for the same principle.

@@ -114,7 +114,21 @@ window.SITE = {
       url: "https://atlas.snackpackuniverse.com/",
       logo: "assets/atlas-quest-mark.svg",
     },
+    {
+      name: "Snackpack Arcade",
+      blurb: "Free browser games. No install, no sign-in, no waiting.",
+      url: "https://snackpackuniverse.com/play/",
+      logo: "assets/snackpack-arcade-mark.svg",
+    },
   ],
+
+  // Wording for the "space available" card at the end of the right rail. Read by
+  // rails.js, which falls back to neutral copy if this is absent. Written for the
+  // person who might buy the slot, not for the developer waiting out the outage.
+  sponsorOffer: {
+    title: "Sponsor this page",
+    blurb: "Reach developers the minute Claude goes down.",
+  },
 
   // Scope the headline verdict to the services used by the site's general audience.
   // Cowork and Claude for Government remain visible on Anthropic's official page, but

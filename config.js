@@ -151,7 +151,7 @@ window.SITE = {
   robots:  { up: "assets/robot-up.webp", degraded: "assets/robot-degraded.webp", down: "assets/robot-down.webp" },
   buttons: { up: "assets/button-green.webp", down: "assets/button-red.webp", default: "assets/smash-button.webp" },
 
-  // Panic-counter one-liners. Keep them in-character for the product's audience.
+  // Check-again button one-liners. Keep them in-character for the product's audience.
   quotes: [
     "My assignment is due tomorrow and I just started.",
     "If Claude goes down, so does my productivity.",
@@ -210,7 +210,7 @@ window.SITE = {
     "I have become the human in the loop. Horrifying.",
     "Claude is down and somehow my impostor syndrome is up.",
     "Every refresh is a tiny incident response drill.",
-    "The only thing operational right now is my panic counter.",
+    "The only thing operational right now is my refresh button.",
     "I am going to write code unaided, like a historical reenactment.",
     "If anyone asks, I am doing resilience testing.",
     "My vibe coding has become vibe waiting.",
@@ -321,7 +321,7 @@ window.SITE = {
     "If I open Codex now, Tibo wins. I refuse.",
     "Tibo's timeline is suspiciously cheerful this morning.",
     "I'd defect to Tibo's side, but I'd have to learn a whole new CLI.",
-    "Do not let Tibo see the panic counter.",
+    "Do not let Tibo see how often I refresh.",
     "I will not give Tibo the satisfaction. I will simply sit here.",
     "Tibo is out there shipping and I am out here refreshing.",
 
